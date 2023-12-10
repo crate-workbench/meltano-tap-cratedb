@@ -3,11 +3,11 @@ import json
 
 from singer_sdk.testing.templates import TapTestTemplate
 
-from tap_postgres.tap import TapPostgres
+from tap_cratedb.tap import TapCrateDB
 
 TABLE_NAME_SELECTED_COLUMNS_ONLY = "test_selected_columns_only"
 SAMPLE_CONFIG = {
-    "sqlalchemy_url": "postgresql://postgres:postgres@localhost:5432/postgres",
+    "sqlalchemy_url": "crate://crate@localhost:4200/",
 }
 
 
@@ -27,7 +27,7 @@ def selected_columns_only_test(tap, table_name):
                     if metadata["breadcrumb"][1] == column_to_exclude:
                         metadata["metadata"]["selected"] = False
 
-    tap = TapPostgres(config=SAMPLE_CONFIG, catalog=tap_catalog)
+    tap = TapCrateDB(config=SAMPLE_CONFIG, catalog=tap_catalog)
     streams = tap.discover_streams()
     selected_stream = [s for s in streams if s.selected is True][0]
 
