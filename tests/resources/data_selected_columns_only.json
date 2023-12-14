@@ -1,7 +1,7 @@
 {
     "streams": [
         {
-            "tap_stream_id": "public-test_selected_columns_only",
+            "tap_stream_id": "doc-test_selected_columns_only",
             "table_name": "test_selected_columns_only",
             "replication_method": "",
             "key_properties": [
@@ -34,7 +34,7 @@
                 ]
             },
             "is_view": false,
-            "stream": "public-test_selected_columns_only",
+            "stream": "doc-test_selected_columns_only",
             "metadata": [
                 {
                     "breadcrumb": [
@@ -74,7 +74,7 @@
                             "id"
                         ],
                         "forced-replication-method": "",
-                        "schema-name": "public",
+                        "schema-name": "doc",
                         "selected": true,
                         "replication-method": "INCREMENTAL",
                         "replication-key": "updated_at"

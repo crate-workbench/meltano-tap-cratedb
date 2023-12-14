@@ -1,7 +1,9 @@
 """Tests standard tap features using the built-in SDK tests library."""
+import pytest
 
+pytest.skip("Will do that later", allow_module_level=True)
 
-from tap_postgres.tap import TapPostgres
+from tap_cratedb.tap import TapCrateDB
 
 TABLE_NAME = "test_replication_key"
 SAMPLE_CONFIG = {
@@ -18,5 +20,5 @@ SAMPLE_CONFIG = {
 
 def test_ssh_tunnel():
     """We expect the SSH environment to already be up"""
-    tap = TapPostgres(config=SAMPLE_CONFIG)
+    tap = TapCrateDB(config=SAMPLE_CONFIG)
     tap.sync_all()

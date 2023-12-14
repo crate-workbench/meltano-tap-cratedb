@@ -1,7 +1,7 @@
 {
     "streams": [
         {
-            "tap_stream_id": "public-test_replication_key",
+            "tap_stream_id": "doc-test_replication_key",
             "table_name": "test_replication_key",
             "replication_method": "",
             "key_properties": [
@@ -34,7 +34,7 @@
                 ]
             },
             "is_view": false,
-            "stream": "public-test_replication_key",
+            "stream": "doc-test_replication_key",
             "metadata": [
                 {
                     "breadcrumb": [
@@ -74,7 +74,7 @@
                             "id"
                         ],
                         "forced-replication-method": "",
-                        "schema-name": "public",
+                        "schema-name": "doc",
                         "selected": true,
                         "replication-method": "INCREMENTAL",
                         "replication-key": "updated_at"

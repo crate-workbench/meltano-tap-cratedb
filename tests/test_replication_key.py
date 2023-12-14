@@ -10,12 +10,13 @@ from singer_sdk.testing.templates import TapTestTemplate
 from sqlalchemy import Column, MetaData, String, Table
 from sqlalchemy.dialects.postgresql import TIMESTAMP
 
-from tap_postgres.tap import TapPostgres
+from tap_cratedb.tap import TapCrateDB
+from tests.settings import DB_SCHEMA_NAME
 
 TABLE_NAME = "test_replication_key"
 SAMPLE_CONFIG = {
     "start_date": pendulum.datetime(2022, 11, 1).to_iso8601_string(),
-    "sqlalchemy_url": "postgresql://postgres:postgres@localhost:5432/postgres",
+    "sqlalchemy_url": "crate://crate@localhost:4200/",
 }
 
 
@@ -44,7 +45,7 @@ def replication_key_test(tap, table_name):
     # with open('data.json', 'w', encoding='utf-8') as f:
     #    json.dump(tap_catalog, f, indent=4)
 
-    tap = TapPostgres(config=SAMPLE_CONFIG, catalog=tap_catalog)
+    tap = TapCrateDB(config=SAMPLE_CONFIG, catalog=tap_catalog)
     tap.sync_all()
 
 
@@ -78,9 +79,9 @@ def test_null_replication_key_with_start_date():
         conn.execute(insert)
         insert = table.insert().values(data="Zulu", updated_at=None)
         conn.execute(insert)
-    tap = TapPostgres(config=SAMPLE_CONFIG)
+    tap = TapCrateDB(config=SAMPLE_CONFIG)
     tap_catalog = json.loads(tap.catalog_json_text)
-    altered_table_name = f"public-{table_name}"
+    altered_table_name = f"{DB_SCHEMA_NAME}-{table_name}"
     for stream in tap_catalog["streams"]:
         if stream.get("stream") and altered_table_name not in stream["stream"]:
             for metadata in stream["metadata"]:
@@ -94,7 +95,7 @@ def test_null_replication_key_with_start_date():
                     metadata["metadata"]["replication-key"] = "updated_at"
 
     test_runner = TapTestRunner(
-        tap_class=TapPostgres,
+        tap_class=TapCrateDB,
         config=SAMPLE_CONFIG,
         catalog=tap_catalog,
     )
@@ -135,9 +136,9 @@ def test_null_replication_key_without_start_date():
         conn.execute(insert)
         insert = table.insert().values(data="Zulu", updated_at=None)
         conn.execute(insert)
-    tap = TapPostgres(config=modified_config)
+    tap = TapCrateDB(config=modified_config)
     tap_catalog = json.loads(tap.catalog_json_text)
-    altered_table_name = f"public-{table_name}"
+    altered_table_name = f"{DB_SCHEMA_NAME}-{table_name}"
     for stream in tap_catalog["streams"]:
         if stream.get("stream") and altered_table_name not in stream["stream"]:
             for metadata in stream["metadata"]:
@@ -151,7 +152,7 @@ def test_null_replication_key_without_start_date():
                     metadata["metadata"]["replication-key"] = "updated_at"
 
     test_runner = TapTestRunner(
-        tap_class=TapPostgres,
+        tap_class=TapCrateDB,
         config=modified_config,
         catalog=tap_catalog,
     )
