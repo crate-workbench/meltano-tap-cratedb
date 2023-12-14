@@ -200,7 +200,7 @@ def test_temporal_datatypes():
                 if metadata["breadcrumb"] == []:
                     metadata["metadata"]["replication-method"] = "FULL_TABLE"
 
-    test_runner = PostgresTestRunner(
+    test_runner = CrateDBTestRunner(
         tap_class=TapCrateDB, config=SAMPLE_CONFIG, catalog=tap_catalog
     )
     test_runner.sync_all()
@@ -269,7 +269,7 @@ def test_jsonb_json():
                 if metadata["breadcrumb"] == []:
                     metadata["metadata"]["replication-method"] = "FULL_TABLE"
 
-    test_runner = PostgresTestRunner(
+    test_runner = CrateDBTestRunner(
         tap_class=TapCrateDB, config=SAMPLE_CONFIG, catalog=tap_catalog
     )
     test_runner.sync_all()
@@ -321,7 +321,7 @@ def test_decimal():
                 if metadata["breadcrumb"] == []:
                     metadata["metadata"]["replication-method"] = "FULL_TABLE"
 
-    test_runner = PostgresTestRunner(
+    test_runner = CrateDBTestRunner(
         tap_class=TapCrateDB, config=SAMPLE_CONFIG, catalog=tap_catalog
     )
     test_runner.sync_all()
@@ -357,7 +357,7 @@ def test_filter_schemas():
     assert tap_catalog["streams"][0]["stream"] == altered_table_name
 
 
-class PostgresTestRunner(TapTestRunner):
+class CrateDBTestRunner(TapTestRunner):
     def run_sync_dry_run(self) -> bool:
         """
         Dislike this function and how TestRunner does this so just hacking it here.
@@ -411,7 +411,7 @@ def test_invalid_python_dates():
                 if metadata["breadcrumb"] == []:
                     metadata["metadata"]["replication-method"] = "FULL_TABLE"
 
-    test_runner = PostgresTestRunner(
+    test_runner = CrateDBTestRunner(
         tap_class=TapCrateDB, config=SAMPLE_CONFIG, catalog=tap_catalog
     )
     with pytest.raises(ValueError):
@@ -433,7 +433,7 @@ def test_invalid_python_dates():
                 if metadata["breadcrumb"] == []:
                     metadata["metadata"]["replication-method"] = "FULL_TABLE"
 
-    test_runner = PostgresTestRunner(
+    test_runner = CrateDBTestRunner(
         tap_class=TapCrateDB, config=SAMPLE_CONFIG, catalog=tap_catalog
     )
     test_runner.sync_all()
